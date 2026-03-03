@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Panel QR Giriş</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        body { text-align: center; font-family: sans-serif; background: #f8f9fa; padding-top: 50px; }
+        #qr-container { background: white; display: inline-block; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #timer { font-size: 22px; color: #d93025; font-weight: bold; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Amyotrofik Lateral Skleroz <br> (ALS)'yi Anlamak ve ALS İle Yaşamak: Klinik, <br> Moleküler ve Fonksiyonel Perspektifler <br> Paneli Kayıt Formu</h1>
+    <p>Lütfen devam etmek için güncel QR kodu taratın.</p>
+    
+    <div id="qr-container">
+        <div id="qrcode"></div>
+        <div id="timer">Yükleniyor...</div>
+    </div>
+
+    <script>
+        // ÖNEMLİ: Yeni Dağıtımdan aldığınız /exec linkini buraya yapıştırın!
+        var scriptUrl = "https://script.google.com/macros/s/AKfycbxgk5DGZAReaxzK8dheeXc4Dkb4ZgVyD6ptSgDNtZPhOKLUIET2D2spJZC9x5mClWmz6g/exec";
+        
+        var qrcode = new QRCode(document.getElementById("qrcode"), { width: 350, height: 350 });
+        var timerInterval;
+
+        function updateQR() {
+            var key = Math.floor(Date.now() / 40000);
+            qrcode.makeCode(scriptUrl + "?key=" + key);
+            
+            // Geri Sayım Sayacı
+            let timeLeft = 40;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").innerText = "Yeni QR'da kalan süre: " + timeLeft + " sn" ;
+              
+                if(timeLeft <= 0) clearInterval(timerInterval);
+            }, 1000);
+        }
+         
+        setInterval(updateQR, 40000); // 40 saniyede bir çalışır
+        updateQR(); // Sayfa açılır açılmaz ilk QR'ı üretir
+    </script>
+ <h2> Her cihazdan bir kayıt alınabilir. </h2>
+</body>
+</html>
